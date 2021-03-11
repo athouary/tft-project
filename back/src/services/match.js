@@ -1,10 +1,18 @@
 import fetch from 'node-fetch'
-import { PUUID_ID, TFT_API_BASE_URL } from '../utils/constants'
+import { PUUID_ID, TEMP_API_TOKEN, TFT_API_BASE_URL } from '../utils/constants'
 
 export const getMatchListByPuuid = async () => {
-  const matchNumberLimit = 20;
+  const matchNumberLimit = 1
+  const matchIdList = await fetch(`${TFT_API_BASE_URL}/matches/by-puuid/${PUUID_ID}/ids?count=${matchNumberLimit}`, {
+    headers: { 'X-Riot-Token': TEMP_API_TOKEN },
+  }).then((response) => response.json())
 
-  return fetch(`${TFT_API_BASE_URL}/matches/by-puuid/${PUUID_ID}/ids?count=${matchNumberLimit}`, {
-    headers: { "X-Riot-Token": "RGAPI-b652e2de-10bc-4304-b9b5-715248c1d121" }
-  }).then((response) => response.json());
+  const matchRequestList = matchIdList.map((matchId) => getMatchById(matchId))
+  return Promise.all(matchRequestList)
+}
+
+export const getMatchById = async (matchId) => {
+  return fetch(`${TFT_API_BASE_URL}/matches/${matchId}`, {
+    headers: { 'X-Riot-Token': TEMP_API_TOKEN },
+  }).then((response) => response.json())
 }
