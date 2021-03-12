@@ -1,7 +1,7 @@
 const path = require('path')
 
 const BUILD_FOLDER = 'lib'
-const ENTRY_FILE = 'src/index.js'
+const ENTRY_FILE = 'src/index.jsx'
 
 module.exports = (env) => {
   const mode = env
@@ -23,11 +23,13 @@ module.exports = (env) => {
             loader: 'babel-loader',
             options: {
               plugins: [
+                '@babel/plugin-transform-react-jsx',
                 '@babel/plugin-proposal-class-properties',
                 '@babel/plugin-proposal-export-default-from',
                 '@babel/plugin-proposal-optional-chaining',
                 '@babel/plugin-proposal-nullish-coalescing-operator',
               ],
+              presets: ['@babel/preset-react'],
             },
           },
         },

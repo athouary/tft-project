@@ -1,9 +1,14 @@
 {
   "extends": [
-    "standard"
+    "standard",
+    "standard-jsx",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:react/recommended"
   ],
   "rules": {
-    "comma-dangle": ["error", "always-multiline"]
+    "comma-dangle": ["error", "always-multiline"],
+    "react/prop-types": ["off"]
   },
   "parser": "babel-eslint",
   "env": {
